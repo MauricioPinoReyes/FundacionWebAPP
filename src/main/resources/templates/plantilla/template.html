@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+<meta charset="UTF-8">
+<title>Fundacion</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+
+	<!-- BARRA DE NAVEGACION  -->
+	
+	<header th:fragment="header">
+		<div class="container">
+	        <div class="row justify-content-center">
+	            <h1>
+	             Listado de ciudades y ayuda
+	            </h1>
+	        </div>
+	    </div>
+	</header>
+		
+    <!-- CONTENIDO -->
+	
+	<section th:fragment="section">
+	
+		<div class="container">
+        <table border="2" class="table table-hover table-striped  table-borderless table-sm"> 
+            <thead class="thead-light">
+                <tr>
+                    <th>Ciudad</th>
+                    <th>Tipo de Ayuda</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="ayudas:${listAyudas}">
+                    <td th:text="${ayudas.getBeneficiario().getCiudad().getNombreCiudad()}"></td>
+                    <td th:text="${ayudas.getMotivo()}"></td>
+                    <td th:text="${ayudas.getMonto()}"></td>
+                </tr>
+               
+            </tbody>
+        </table>   
+    </div>
+	
+</section>
+
+	<!-- PIE DE PAGINA  -->
+
+	<footer th:fragment="footer">
+	
+		<div class="container">
+        <div class="row justify-content-center mt-5">
+            
+        
+			<form th:action="@{/save}" th:object="${ayuda}" method="post">	
+				
+            <div class="row justify-content-center">
+                <h4>Agregar Ayuda </h4>
+            </div> 
+            <div class="row form-group">
+                <input type="hidden" th:field="*{ayudaId}"> 
+                <label for="beneficiario" class="col-form-label col-md-4" >Beneficiario:</label> 
+                   
+                <div class="col-md-7">
+                <select type="text"  th:field="*{beneficiario}" class="form-control" id="beneficiario">
+                    <option th:each="beneficiario:${listBeneficiarios}"
+                        th:value="${beneficiario.beneficiarioId}"
+                        th:text="${beneficiario.nombre}" />
+                </select> 
+            </div>
+            </div>
+
+                <div class="row form-group">
+                    <label for="monto" class="col-form-label col-md-4">Monto:</label>
+                    <div class="col-md-7">
+                        <input type="text" th:field="*{monto}" name="monto" value="" id="monto" class="form-control" placeholder="$ 0">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="motivo" class="col-form-label col-md-4">Motivo:</label>
+                    <div class="col-md-8">
+                        <input type="text" th:field="*{motivo}" name="motivo" value="" id="motivo" class="form-control" placeholder="Ingrese Motivo">
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <label for="motivo" class="col-form-label col-md-4"></label>
+                    <div class="col-md-4">
+                        <input type="submit" class="btn btn-light form-control" value="Agregar" />
+                    </div>
+                </div>
+            </div>
+        
+         </form>
+           
+        </div>
+	
+	
+	
+	
+
+		<script type="text/javascript"
+			th:src="@{/js/jquery-3.3.1.slim.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	</footer>
+
+</body>
+</html>
